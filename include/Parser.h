@@ -2,6 +2,9 @@
 #define PARSER_H
 #include <fstream>
 #include <string>
+#include <iostream>
+#include <algorithm>
+using namespace std;
 /*
  * Parses the code for easy access
  */
@@ -14,26 +17,42 @@
 class Parser
 {
     public:
+        /* VARIABLES
+        *============
+        */
+        // File container for the source to assemble
         ifstream sourceCode;
+        // String containing the current line we're processing
+        string line;
+        // Stores the current command type
+        CommandTypes command;
 
+
+        /* FUNCTIONS
+        *============
+        */
         // Opens the input file and gets ready for parsing
         Parser(string filename);
         virtual ~Parser();
+        // Takes a new line in the file and reads it to line
+        void readLine();
 
         // Are there more commands in the input?
-        public bool hasMoreCommands();
+        bool hasMoreCommands();
         // Advance one line in the source
-        public void advance();
+        bool advance();
         /* Returns the current command type */
-        public CommandTypes commandType();
+        CommandTypes commandType();
         // Returns the symbol or decimal Xxx of the current command @Xxx or (Xxx). Should be called only when commandType() if A_COMMAND or L_COMMAND.
-        public string symbol();
+        string symbol();
         // Returns the dest mnemonic in the current C-command. Should be called only when commandType() is C_COMMAND
-        public string dest();
+        string dest();
         // Returns the comp mnemonic in the current C-cmomand.
-        public string comp();
+        string comp();
         // Returns the jump mnemonic in the current C-command.
-        public string jump();
+        string jump();
+
+        string removeWhitespace(string str);
     protected:
     private:
 };
